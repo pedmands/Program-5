@@ -24,7 +24,7 @@ using namespace std;
 const float COST_PER_GIFT_BAG = 4.15;    // Cost per gift bag
 const int NAPKINS_PER_PACK = 12;         // Number of napkins in a pack
 const int PLATES_PER_PACK = 8;           // Plates per pack
-int SLICES_PER_PIZZA = 12;         // Number of slices per pizza 🍕
+const int SLICES_PER_PIZZA = 12;         // Number of slices per pizza 🍕
 const float COST_PER_PIZZA = 5.35;       // Cost per pizza
 const int JUICE_BOXES_PER_PACK = 10;     // Number of juice boxes per pack
 const float COST_PER_JUICE_PACK = 4.25;  // Cost per juice pack
@@ -60,7 +60,7 @@ int main() {
     float partiesTotalCost; // Total cost of all parties reported
 
     // Welcome the user
-    WelcomeMessage("cake-woman");
+    WelcomeMessage("cake-man");
 
     // Get the name for the report file from the user
     string fileName = GetFileName();
@@ -93,7 +93,7 @@ int main() {
 string GetFileName() {
     /* #region [Input] Fold GetFileName */
     string fileName;
-    cout << "What would you like to name the report file? " << endl;
+    cout << "Please enter the file name to use for the report: " << endl << endl;
     cin >> fileName;
     cin.clear();
     cin.ignore(256, '\n');
@@ -143,22 +143,16 @@ int GetAge() {
         cout << "How old will the birthday child be? " << endl;
         cin >> age;
         cin.ignore(256, '\n');
-        // cin.ignore(256, '\n');
-        // do {
-        //     cin.clear();
-        //     cin.ignore(256, '\n');
-        //     cout << "Invalid input! Please enter a value between 1-119: " << endl;
-        //     cin >> age;
-        // } while (cin.fail());
         while (cin.fail()) {
             cin.clear();
             cin.ignore(256, '\n');
-            cout << "Invalid input! Please enter a value between 1-119: " << endl;
+            cout << "INPUT ERROR, Please enter an integer between 1-119!" << endl << endl;
+            cout << "How old will the birthday child be?" << endl;
             cin >> age;
             cin.ignore(256, '\n');
         }
         if(age < 1 || age >= 120) { // Input validation: If input is outside of acceptable range, output an error
-            cout << "Range Error! Please enter a value between 1-119." << endl;
+            cout << "RANGE ERROR, Please enter a value between 1-119!" << endl << endl;
             cin.clear();
         }
     } while(age < 1 || age >= 120);
@@ -178,25 +172,20 @@ int GetGuests() {
         cout << "How many invited guests? " << endl;
         cin >> guests;
         cin.ignore(256, '\n');
-        // do {
-        //     cin.clear();
-        //     cin.ignore(256, '\n');
-        //     cout << "Invalid input! Please enter a value between 1-499: " << endl;
-        //     cin >> guests;
-        // } while (cin.fail());
         while ( cin.fail() ) {  // Input validation: While input is not of type int output an error
             cin.clear();
             cin.ignore(256, '\n');
-            cout << "Invalid input! Please enter a value between 1-499: " << endl;
+            cout << "INPUT ERROR, Please enter an integer between 1-499! " << endl << endl;
+            cout << "How many invited guests? " << endl;
             cin >> guests;
             cin.ignore(256, '\n');
         }
         if(guests < 1 || guests >= 500) { // Input validation: If input is outside of acceptable range, output an error
-            cout << "Range Error! Please enter a value between 1-499: " << endl;
+            cout << "RANGE ERROR, Please enter a value between 1-499! " << endl << endl;
             cin.clear();
         }
     } while(guests < 1 || guests >= 500);
-    
+
     return guests;
      /* #endregion */
 }
@@ -204,12 +193,12 @@ int GetGuests() {
 char ContinuePrompt(char response) {
      /* #region [Input] Fold ContinuePrompt */
     do {
-        cout << "Do you have another report to enter? 'Y'/'N': " << endl;
+        cout << "Would you like to process another party (Y/N)? " << endl << endl;
         cin >> response;
         cin.ignore(256, '\n');
         response = toupper(response);
         if(response != 'Y' && response != 'N')
-            cout << "Error! Please Enter 'Y' or ’N’: " << endl;
+            cout << "ERROR, Please Enter Y or N! " << endl << endl;
     }while(response != 'Y' && response != 'N');
 
     return response;
@@ -460,7 +449,7 @@ void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
 
     partyReport << fixed << showpoint << setprecision(2);
 
-    partyReport << endl << endl;
+    partyReport << endl;
     partyReport << "Number of Parties:                " << setw(8) << numParties << endl;
     partyReport << "Total cost of all parties:      $ " << setw(8) << partiesTotalCost << endl;
     partyReport << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl;
@@ -473,7 +462,7 @@ void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
     // Print the above to the console
     cout << fixed << showpoint << setprecision(2);
 
-    cout << endl << endl;
+    cout << string(44, '*') << endl << string(44, '*') << endl << endl;
     cout << "Number of Parties:                " << setw(8) << numParties << endl;
     cout << "Total cost of all parties:      $ " << setw(8) << partiesTotalCost << endl;
     cout << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl;
