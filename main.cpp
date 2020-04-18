@@ -9,57 +9,76 @@
 #include <iomanip>
 #include <cmath>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
+float COST_PER_GIFT_BAG = 4.15;    // Cost per gift bag
+int NAPKINS_PER_PACK = 12;         // Number of napkins in a pack
+int PLATES_PER_PACK = 8;           // Plates per pack
+float COST_PER_PIZZA = 5.35;       // Cost per pizza
+int SLICES_PER_PIZZA = 12;         // Number of slices per pizza 🍕
+float COST_PER_JUICE_PACK = 4.25;  // Cost per juice pack
+int JUICE_BOXES_PER_PACK = 10;     // Number of juice boxes per pack
+float COST_PER_FULL_SHEET = 15.75; // Price of each sheet cake
+float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
+
 /* #region [Charcoal] Function Declarations */
-void GenerateReport(string fileName, float COST_PER_GIFT_BAG, int NAPKINS_PER_PACK, int PLATES_PER_PACK, float COST_PER_PIZZA, int SLICES_PER_PIZZA, float COST_PER_JUICE_PACK, int JUICE_BOXES_PER_PACK, float COST_PER_FULL_SHEET, float COST_PER_HALF_SHEET);
+string GetFileName();
+float GenerateReport(string fileName);
 string GetName();
 int GetAge();
 int GetGuests();
 //float GetCakeCost();
-string GetFileName();
-
 float CalcBalloonsCost(int numBalloons);
 float CalcNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK);
 float CalcPlatesCost(int platePacks, int PLATES_PER_PACK);
-
 void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fileName, string name, int numBalloons, float balloonsCost, int numBags, float giftBagsCost, int napkinPacks, float napkinsCost, int platePacks, float platesCost, int pizzas, float pizzaCost, int juiceBoxPacks, float juiceCost, float halfSheetCost, float fullSheetCost, float total);
+void PrintSummary(string fileName, int numParties, float partiesTotalCost);
 /* #endregion */
 
 // ---------------------------------- Main Function -----------------------------------
 
 int main() {
     /* #region Fold Main ⤵️ */ 
-    /* #region [Grey] Declarations */ 
-    float COST_PER_GIFT_BAG = 4.15;    // Cost per gift bag
-    int NAPKINS_PER_PACK = 12;         // Number of napkins in a pack
-    int PLATES_PER_PACK = 8;           // Plates per pack
-    float COST_PER_PIZZA = 5.35;       // Cost per pizza
-    int SLICES_PER_PIZZA = 12;         // Number of slices per pizza 🍕
-    float COST_PER_JUICE_PACK = 4.25;  // Cost per juice pack
-    int JUICE_BOXES_PER_PACK = 10;     // Number of juice boxes per pack
-    float COST_PER_FULL_SHEET = 15.75; // Price of each sheet cake
-    float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
-    /* #endregion */
+    char response;
+    int numParties = 0;
+    float currentPartyTotal;
+    float partiesTotalCost;
 
     // Welcome the user
     cout << "Welcome to the Birthday Party Cost Calculator!" << endl
          << endl;
 
     string fileName = GetFileName();
-    
-    GenerateReport(fileName, COST_PER_GIFT_BAG, NAPKINS_PER_PACK, PLATES_PER_PACK, COST_PER_PIZZA, SLICES_PER_PIZZA, COST_PER_JUICE_PACK, JUICE_BOXES_PER_PACK, COST_PER_FULL_SHEET, COST_PER_HALF_SHEET);
 
+    do {
+        currentPartyTotal = GenerateReport(fileName);
+        numParties += 1;
+        partiesTotalCost += currentPartyTotal;
+        do {
+            cout << "Do you have another report to enter? 'Y'/'N': ";
+            cin >> response;
+            cin.ignore(256, '\n');
+            response = toupper(response);
+            if(response != 'Y' && response != 'N')
+                cout << "Error! Please Enter 'Y' or ’N’: " << endl;
+        }while(response != 'Y' && response != 'N');
+    } while(response == 'Y');
+
+    PrintSummary(fileName, numParties, partiesTotalCost);
    
     return 0;
 /* #endregion Fold Main */
 }
 
-void GenerateReport(string fileName, float COST_PER_GIFT_BAG, int NAPKINS_PER_PACK, int PLATES_PER_PACK, float COST_PER_PIZZA, int SLICES_PER_PIZZA, float COST_PER_JUICE_PACK, int JUICE_BOXES_PER_PACK, float COST_PER_FULL_SHEET, float COST_PER_HALF_SHEET){
+float GenerateReport(string fileName){
+    /* #region [Charcoal] Fold Generate Report */
     string name;     // Birthday child's name, to be entered by user.
     int age;         // Birthday child's age, to be entered by user.
     int guests;      // Number of guests invited, to be entered by user.
+
+    // -------------- Input ---------------------
 
     // Ask the user for the child's name
     name = GetName();
@@ -68,7 +87,7 @@ void GenerateReport(string fileName, float COST_PER_GIFT_BAG, int NAPKINS_PER_PA
     // Get the number of guests from the user
     guests = GetGuests();
 
-    // Calculations
+    // -------------- Calculations --------------
 
     // Calculate total number of children, including birthday child
     int children = guests + 1;
@@ -110,7 +129,7 @@ void GenerateReport(string fileName, float COST_PER_GIFT_BAG, int NAPKINS_PER_PA
     {
         fullSheets += 1;
     }
-    else
+    else if (remainingChildren > 0) // Make sure there are at least *some* children left
     {
         halfSheet = true;
         halfSheetCost = COST_PER_HALF_SHEET;
@@ -122,48 +141,81 @@ void GenerateReport(string fileName, float COST_PER_GIFT_BAG, int NAPKINS_PER_PA
     // We leave halfSheetCost and fullSheetCost as separate variables instead of combining them because they appear as line items in the report
     float total = balloonsCost + giftBagsCost + napkinsCost + platesCost + pizzaCost + juiceCost + halfSheetCost + fullSheetCost;
 
-    // Output
+    // -------------- Output --------------------
 
     // Print the results to the ofstream output file partyReport.out, located in the same directory as the program.
     PrintReport(age, guests, fullSheets, halfSheet, fileName, name, numBalloons, balloonsCost, numBags, giftBagsCost, napkinPacks, napkinsCost, platePacks, platesCost, pizzas, pizzaCost, juiceBoxPacks, juiceCost, halfSheetCost, fullSheetCost, total);
 
-
+    return total;
+     /* #endregion */
 }
 
 // ------------------------------- User Input Functions -------------------------------
 
-/* #region [Input] Input Function Definitions */
-    
+// isNumber() checks whether or not a string contains digits. Used when validating user input during GetName()
+// Precondition: str
+// Postcondition: returns true if
+bool isNumber(string str) { 
+        for (int i = 0; i < str.length(); i++) 
+            if (isdigit(str[i]) == true) 
+                return true; 
+        return false; 
+}
+
 // GetName() gets the birthday child's name from user and returns it to main()
 // Precondition: none
 // Postcondition: returns name
 string GetName() {
+    /* #region [Input] Fold GetName */
+    // Returns true if s is a number else false 
     string name;
-    cout << "What is the birthday child's name? ";
-    getline(cin, name);
+
+    do {
+        cout << "What is the birthday child's name? ";
+        cin >> name;
+        cin.ignore(256, '\n');
+        if (isNumber(name))
+            cout << "No digits allowed in name!" << endl;
+    }while(isNumber(name));
     return name;
+    /* #endregion */
 }
 
 // GetAge() gets the age from user and returns it to main()
 // Precondition: none
 // Postcondition: returns age
 int GetAge() {
+    /* #region [Input] Fold GetAge */
     int age;
-    cout << "How old will the birthday child be? ";
-    cin >> age;
-    cin.ignore(256, '\n');
+    do {
+        cout << "How old will the birthday child be? ";
+        cin >> age;
+        cin.ignore(256, '\n');
+        if(age < 1 || age >= 120)
+            cout << "Error! Please a value between 1-119: " << endl;
+    }while(age < 1 || age >= 120);
     return age;
+     /* #endregion */
 }
 
 // GetGuests() gets the number of invited guests from user and returns it to main()
 // Precondition: none
 // Postcondition: returns guests
 int GetGuests() {
+    /* #region [Input] Fold GetGuests */
     int guests;
     cout << "How many invited guests? ";
     cin >> guests;
     cin.ignore(256, '\n');
+    do {
+        cout << "How many invited guests? ";
+        cin >> guests;
+        cin.ignore(256, '\n');
+        if(guests < 1 || guests <= 500)
+            cout << "Error! Please enter a value between 1-499: " << endl;
+    }while(guests < 1 || guests <= 500);
     return guests;
+     /* #endregion */
 }
 
 // GetCakeCost() gets the cost of the birthday cake from the user and returns it to main()
@@ -287,30 +339,49 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     partyReport << "Report for birthday child: " << name << endl;
     partyReport << "Birthday child's age:      " << age << endl;
     partyReport << "Number of invited guests:  " << guests << endl << endl;   
-    partyReport << "           Balloons:  " << setw(4) << numBalloons << "   $ " << setw(7) << balloonsCost << endl;
-    partyReport << "          Gift Bags:  " << setw(4) << numBags << "   $ " << setw(7) << giftBagsCost << endl;
-    partyReport << "       Napkin Packs:  " << setw(4) << napkinPacks << "   $ " << setw(7) << napkinsCost << endl;
-    partyReport << "        Plate Packs:  " << setw(4) << platePacks << "   $ " << setw(7) << platesCost << endl;
-    partyReport << "             Pizzas:  " << setw(4) << pizzas << "   $ " << setw(7) << pizzaCost << endl;
-    partyReport << "     Juicebox Packs:  " << setw(4) << juiceBoxPacks << "   $ " << setw(7) << juiceCost << endl;
+    partyReport << "           Balloons:  " << setw(5) << numBalloons << "     $ " << setw(8) << balloonsCost << endl;
+    partyReport << "          Gift Bags:  " << setw(5) << numBags << "     $ " << setw(8) << giftBagsCost << endl;
+    partyReport << "       Napkin Packs:  " << setw(5) << napkinPacks << "     $ " << setw(8) << napkinsCost << endl;
+    partyReport << "        Plate Packs:  " << setw(5) << platePacks << "     $ " << setw(8) << platesCost << endl;
+    partyReport << "             Pizzas:  " << setw(5) << pizzas << "     $ " << setw(8) << pizzaCost << endl;
+    partyReport << "     Juicebox Packs:  " << setw(5) << juiceBoxPacks << "     $ " << setw(8) << juiceCost << endl;
     if (fullSheets)
     {
-        partyReport << "  Cake - full sheet:    " << setw(2) << fullSheets << "   $ " << setw(7) << fullSheetCost << endl;
+        partyReport << "  Cake - full sheet:    " << setw(2) << fullSheets << "      $ " << setw(8) << fullSheetCost << endl;
     }
     if (halfSheet)
     {
-        partyReport << "  Cake - half sheet:     " << "1   $   " << halfSheetCost << endl;
+        partyReport << "  Cake - half sheet:     " << "1      $    " << halfSheetCost << endl;
     }
-
-    partyReport << "         Total cost:         $ " << setw(7) << total << endl
-                << endl;
-    partyReport << string(40, '*') << endl;
+    partyReport << "         Total cost:            $ " << setw(8) << total << endl << endl;
+    partyReport << string(44, '*') << endl;
 
     // Close the report file
     partyReport.close();
     /* #endregion */
 }
 
+void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
+     /* #region [Utilities] Fold PrintSummaryt */
+    float partyAverage = partiesTotalCost / numParties;
+
+      // Open an output filestream
+    ofstream partyReport;
+    // Open a report file using the ofstream with the file name previously provided by user
+    partyReport.open(fileName, ios::app);
+
+    partyReport << fixed << showpoint << setprecision(2);
+
+    partyReport << endl << endl;
+    partyReport << "Number of Parties:                " << setw(8) << numParties << endl;
+    partyReport << "Total cost of all parties:      $ " << setw(8) << partiesTotalCost << endl;
+    partyReport << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl;
+    partyReport << string(44, '*') << endl;
+    partyReport << string(44, '*') << endl << endl;
+
+    partyReport.close();
+    /* #endregion */
+}
 
 
 
