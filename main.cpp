@@ -4,6 +4,7 @@
 // Program 4 - v2
 // This program calculates the cost of throwing a child’s birthday party as determined by the age of the birthday child and the number of guests invited, plus the cost of the birthday cake. It then outputs the report, breaking down the number of each item to purchase and the cost of each item, as well as the total cost, to a file name determined by the user.
 // v2 notes: The program now calculates price breakpoints for balloons, napkins and plates, the and number of full and half sheet cakes needed to feed the party.
+// v3 notes: Added functions to generate individual party reports as long as the user wants and print a summary of the run of reports when the user is done. All input is also now validated. Added functions to output a welcome message from a file and output a dynamic message on exit.
 
 #include <iostream>
 #include <iomanip>
@@ -14,20 +15,22 @@
 #include <time.h>
 #include <sstream>
 
-// Debug
+// !!!!!!!!!!!!!!!!!!!!!!!!   Debug   !!!!!!!!!!!!!!!!!!!!!!!!
 #include <typeinfo>
 
 using namespace std;
 
-float COST_PER_GIFT_BAG = 4.15;    // Cost per gift bag
-int NAPKINS_PER_PACK = 12;         // Number of napkins in a pack
-int PLATES_PER_PACK = 8;           // Plates per pack
-float COST_PER_PIZZA = 5.35;       // Cost per pizza
+/* #region [Charcoal] Constant Declarations */
+const float COST_PER_GIFT_BAG = 4.15;    // Cost per gift bag
+const int NAPKINS_PER_PACK = 12;         // Number of napkins in a pack
+const int PLATES_PER_PACK = 8;           // Plates per pack
 int SLICES_PER_PIZZA = 12;         // Number of slices per pizza 🍕
-float COST_PER_JUICE_PACK = 4.25;  // Cost per juice pack
-int JUICE_BOXES_PER_PACK = 10;     // Number of juice boxes per pack
-float COST_PER_FULL_SHEET = 15.75; // Price of each sheet cake
-float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
+const float COST_PER_PIZZA = 5.35;       // Cost per pizza
+const int JUICE_BOXES_PER_PACK = 10;     // Number of juice boxes per pack
+const float COST_PER_JUICE_PACK = 4.25;  // Cost per juice pack
+const float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
+const float COST_PER_FULL_SHEET = 15.75; // Price of each sheet cake
+/* #endregion */
 
 /* #region [Charcoal] Function Declarations */
 void WelcomeMessage(string artName);
@@ -57,7 +60,7 @@ int main() {
     float partiesTotalCost; // Total cost of all parties reported
 
     // Welcome the user
-    WelcomeMessage("cake-man");
+    WelcomeMessage("cake-woman");
 
     // Get the name for the report file from the user
     string fileName = GetFileName();
@@ -90,7 +93,7 @@ int main() {
 string GetFileName() {
     /* #region [Input] Fold GetFileName */
     string fileName;
-    cout << "What would you like to name the report file? ";
+    cout << "What would you like to name the report file? " << endl;
     getline(cin, fileName);
     return fileName;
     /* #endregion */
@@ -117,7 +120,7 @@ string GetName() {
 
     do { /* Input validation: Using a do while loop we check whether name contain a number
             with isNumber(), and return an error while it does */
-        cout << "What is the birthday child's name? ";
+        cout << "What is the birthday child's name? " << endl;
         getline(cin, name);
         if (IsNumber(name))
             cout << "No digits allowed in name!" << endl;
@@ -134,12 +137,12 @@ int GetAge() {
     int age;
     do {  /* Input validation: Using a do while loop we check if age is within acceptable range,
             and prompt the user if it's not */
-        cout << "How old will the birthday child be? ";
+        cout << "How old will the birthday child be? " << endl;
         cin >> age;
         while ( cin.fail() ) { // Input validation: While input is not of type int output an error
             cin.clear();
             cin.ignore(256, '\n');
-            cout << "Invalid input! Please enter a value between 1-119: ";
+            cout << "Invalid input! Please enter a value between 1-119: " << endl;
             cin >> age;
         }
         if(age < 1 || age >= 120) { // Input validation: If input is outside of acceptable range, output an error
@@ -160,12 +163,12 @@ int GetGuests() {
     int guests;
     do { /* Input validation: Using a do while loop we check if guests is within acceptable range,
             and prompt the user if it's not */
-        cout << "How many invited guests? ";
+        cout << "How many invited guests? " << endl;
         cin >> guests;
         while ( cin.fail() ) {  // Input validation: While input is not of type int output an error
             cin.clear();
             cin.ignore(256, '\n');
-            cout << "Invalid input! Please enter a value between 1-499: ";
+            cout << "Invalid input! Please enter a value between 1-499: " << endl;
             cin >> guests;
         }
         if(guests < 1 || guests >= 500) { // Input validation: If input is outside of acceptable range, output an error
@@ -181,7 +184,7 @@ int GetGuests() {
 char ContinuePrompt(char response) {
      /* #region [Input] Fold ContinuePrompt */
     do {
-        cout << "Do you have another report to enter? 'Y'/'N': ";
+        cout << "Do you have another report to enter? 'Y'/'N': " << endl;
         cin >> response;
         cin.ignore(256, '\n');
         response = toupper(response);
@@ -400,7 +403,7 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     // Format floats to two decimal places
     partyReport << fixed << showpoint << setprecision(2);
 
-    partyReport << endl;
+    partyReport << endl << endl;
     partyReport << "Report for birthday child: " << name << endl;
     partyReport << "Birthday child's age:      " << age << endl;
     partyReport << "Number of invited guests:  " << guests << endl << endl;   
@@ -418,7 +421,7 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     {
         partyReport << "  Cake - half sheet:      1     $    " << halfSheetCost << endl;
     }
-    partyReport << "         Total cost:            $ " << setw(8) << total << endl << endl;
+    partyReport << "         Total cost:            $ " << setw(8) << total << endl << endl << endl;
     partyReport << string(44, '*') << endl;
 
     // Close the report file
@@ -440,11 +443,22 @@ void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
     partyReport << endl << endl;
     partyReport << "Number of Parties:                " << setw(8) << numParties << endl;
     partyReport << "Total cost of all parties:      $ " << setw(8) << partiesTotalCost << endl;
-    partyReport << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl << endl;
+    partyReport << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl;
     partyReport << string(44, '*') << endl;
     partyReport << string(44, '*') << endl << endl;
 
+    // Close the filestream
     partyReport.close();
+
+    // Print the above to the console
+    cout << fixed << showpoint << setprecision(2);
+
+    cout << endl << endl;
+    cout << "Number of Parties:                " << setw(8) << numParties << endl;
+    cout << "Total cost of all parties:      $ " << setw(8) << partiesTotalCost << endl;
+    cout << "Average spent on each party:    $ " << setw(8) << partyAverage << endl << endl;
+    cout << string(44, '*') << endl;
+    cout << string(44, '*') << endl << endl << endl;
     /* #endregion */
 }
 
@@ -490,7 +504,7 @@ void ExitMessage(string message, string adj) {
         else
             timeOfDay = 2;
 
-        cout << endl << "Thanks for using the Birhday Party Cost Calculator v 3.0." << endl;
+        cout << "Thanks for using the Birhday Party Cost Calculator v 3.0." << endl;
 
         switch (timeOfDay) {
             case 0: cout << "Have a " << adj << " " << day << " morning!" << endl;
