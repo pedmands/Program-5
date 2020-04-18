@@ -1,3 +1,1 @@
-switch(artName) {
-    //     case "cake-woman":
-    // }
+cin.ignore(256, '\n');
