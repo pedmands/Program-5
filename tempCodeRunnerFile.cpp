@@ -1,4 +1,4 @@
-if ( age < 1 || age >= 120 ) {
-            cin.clear();
-            cout << "Range Error! Please enter a value between 1-119: " << endl;
-        }
+stringstream convert(wholeHour); // stringstream used for the conversion initialized with the contents of wholeHour
+
+    // if ( !(convert >> intHour) ) // give the value to intHour using the characters in the string
+    //     intHour = 0; // If that fails set intHour to 0
