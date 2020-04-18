@@ -1,15 +1,111 @@
 
-Report for birthday child: Preston
-Birthday child's age:      37
+Report for birthday child: Preston Edmands
+Birthday child's age:      19
+Number of invited guests:  99
+
+           Balloons:   1881     $   470.25
+          Gift Bags:     99     $   410.85
+       Napkin Packs:     34     $    51.00
+        Plate Packs:     25     $    75.00
+             Pizzas:     25     $   133.75
+     Juicebox Packs:     20     $    85.00
+  Cake - full sheet:      2     $    31.50
+         Total cost:            $  1257.35
+
+********************************************
+
+Report for birthday child: Notserp Sdnamde
+Birthday child's age:      69
+Number of invited guests:  100
+
+           Balloons:   6900     $  1725.00
+          Gift Bags:    100     $   415.00
+       Napkin Packs:     34     $    51.00
+        Plate Packs:     26     $    78.00
+             Pizzas:     26     $   139.10
+     Juicebox Packs:     21     $    89.25
+  Cake - full sheet:      2     $    31.50
+  Cake - half sheet:     1      $    10.00
+         Total cost:            $  2538.85
+
+********************************************
+
+Report for birthday child: Unicorn Rainbow 🦄🌈
+Birthday child's age:      27
+Number of invited guests:  24
+
+           Balloons:    648     $   162.00
+          Gift Bags:     24     $    99.60
+       Napkin Packs:      9     $    22.50
+        Plate Packs:      7     $    21.00
+             Pizzas:      7     $    37.45
+     Juicebox Packs:      5     $    21.25
+  Cake - half sheet:     1      $    10.00
+         Total cost:            $   373.80
+
+********************************************
+
+Report for birthday child: 🐻Bear ❄️Klondike
+Birthday child's age:      88
+Number of invited guests:  25
+
+           Balloons:   2200     $   550.00
+          Gift Bags:     25     $   103.75
+       Napkin Packs:      9     $    22.50
+        Plate Packs:      7     $    21.00
+             Pizzas:      7     $    37.45
+     Juicebox Packs:      6     $    25.50
+  Cake - full sheet:      1     $    15.75
+         Total cost:            $   775.95
+
+********************************************
+
+
+Number of Parties:                       4
+Total cost of all parties:      $  4945.95
+Average spent on each party:    $  1236.49
+
+
+********************************************
+********************************************
+
+
+Report for birthday child: ROUND TWO: FIGHT!
+Birthday child's age:      29
+Number of invited guests:  1
+
+           Balloons:     29     $    13.05
+          Gift Bags:      1     $     4.15
+       Napkin Packs:      1     $     3.00
+        Plate Packs:      1     $     3.15
+             Pizzas:      1     $     5.35
+     Juicebox Packs:      1     $     4.25
+  Cake - half sheet:      1     $    10.00
+         Total cost:            $    42.95
+
+********************************************
+
+Report for birthday child: The Ultimate showdown!
+Birthday child's age:      119
 Number of invited guests:  499
 
-           Balloons:  18463     $  4615.75
+           Balloons:  59381     $ 14845.25
           Gift Bags:    499     $  2070.85
        Napkin Packs:    167     $   250.50
         Plate Packs:    125     $   375.00
              Pizzas:    125     $   668.75
      Juicebox Packs:    100     $   425.00
-  Cake - full sheet:    10      $   157.50
-         Total cost:            $  8563.35
+  Cake - full sheet:     10     $   157.50
+         Total cost:            $ 18792.85
 
 ********************************************
+
+
+Number of Parties:                       2
+Total cost of all parties:      $ 18835.80
+Average spent on each party:    $  9417.90
+
+
+********************************************
+********************************************
+

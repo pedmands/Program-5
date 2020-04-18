@@ -10,8 +10,6 @@
 #include <cmath>
 #include <fstream>
 #include <string>
-// #include <chrono>
-// #include <ctime> // used to work with date and time for exit message
 #include <stdio.h>
 #include <time.h>
 #include <sstream>
@@ -32,8 +30,10 @@ float COST_PER_FULL_SHEET = 15.75; // Price of each sheet cake
 float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
 
 /* #region [Charcoal] Function Declarations */
+void WelcomeMessage(string artName);
 string GetFileName();
 float GenerateReport(string fileName);
+bool IsNumber(string str);
 string GetName();
 int GetAge();
 int GetGuests();
@@ -44,39 +44,38 @@ float CalcPlatesCost(int platePacks, int PLATES_PER_PACK);
 void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fileName, string name, int numBalloons, float balloonsCost, int numBags, float giftBagsCost, int napkinPacks, float napkinsCost, int platePacks, float platesCost, int pizzas, float pizzaCost, int juiceBoxPacks, float juiceCost, float halfSheetCost, float fullSheetCost, float total);
 char ContinuePrompt(char response);
 void PrintSummary(string fileName, int numParties, float partiesTotalCost);
-void ExitMessage(string message);
+void ExitMessage(string message, string adjective);
 /* #endregion */
 
 // ---------------------------------- Main Function -----------------------------------
 
 int main() {
-    /* #region Fold Main ⤵️ */ 
-    char response;
-    int numParties = 0;
-    float currentPartyTotal;
-    float partiesTotalCost;
-
-    // auto end = chrono::system_clock::now();
-    // time_t end_time = chrono::system_clock::to_time_t(end);
-    // cout << ctime(&end_time);
+    /* #region [Main] Fold Main */ 
+    char response; // The user's response to the question as to whether to run the program again
+    int numParties = 0; // Total number of pariy reports generated
+    float currentPartyCost; // Total cost of party currently being calculated
+    float partiesTotalCost; // Total cost of all parties reported
 
     // Welcome the user
-    cout << "Welcome to the Birthday Party Cost Calculator!" << endl
-         << endl;
+    WelcomeMessage("cake-man");
 
-    ExitMessage("time of day");
-
+    // Get the name for the report file from the user
     string fileName = GetFileName();
 
-    do {
-        currentPartyTotal = GenerateReport(fileName);
+    do { // Using a do while loop ensures the code gets run at least once
+        currentPartyCost = GenerateReport(fileName); // Calculate the total cost of the party, appaend a report to the file determined by GetFileName()
         numParties += 1;
-        partiesTotalCost += currentPartyTotal;
+        partiesTotalCost += currentPartyCost; // Add cost of party to the total cost of all parties
+        // Ask the user if they have any more parties to  calculate
         response = ContinuePrompt(response);
     } while(response == 'Y');
 
+    // Append the summary report to the bottom of the file determined by GetFileName()
     PrintSummary(fileName, numParties, partiesTotalCost);
-   
+
+    // Bid farewell to the user
+    ExitMessage("time of day", "lovely");
+
     return 0;
 /* #endregion Fold Main */
 }
@@ -84,14 +83,29 @@ int main() {
 // ------------------------------- User Input Functions -------------------------------
 
 /* #region User Input Functions */
+
+// GetFileName() gets the name of the output file from the user and returns it to main()
+// Precondition: none
+// Postcondition: returns fileName
+string GetFileName() {
+    /* #region [Input] Fold GetFileName */
+    string fileName;
+    cout << "What would you like to name the report file? ";
+    getline(cin, fileName);
+    return fileName;
+    /* #endregion */
+}
+
 // isNumber() checks whether or not a string contains digits. Used when validating user input during GetName()
 // Precondition: str
-// Postcondition: returns true if
-bool isNumber(string str) { 
+// Postcondition: returns true if str is a number
+bool IsNumber(string str) { 
+     /* #region [Input] Fold IsNumber */
         for (int i = 0; i < str.length(); i++) 
             if (isdigit(str[i]) == true) 
                 return true; 
         return false; 
+        /* #endregion */
 }
 
 // GetName() gets the birthday child's name from user and returns it to main()
@@ -99,15 +113,15 @@ bool isNumber(string str) {
 // Postcondition: returns name
 string GetName() {
     /* #region [Input] Fold GetName */
-    // Returns true if s is a number else false 
     string name;
 
-    do {
+    do { /* Input validation: Using a do while loop we check whether name contain a number
+            with isNumber(), and return an error while it does */
         cout << "What is the birthday child's name? ";
         getline(cin, name);
-        if (isNumber(name))
+        if (IsNumber(name))
             cout << "No digits allowed in name!" << endl;
-    }while(isNumber(name));
+    }while(IsNumber(name));
     return name;
     /* #endregion */
 }
@@ -118,16 +132,17 @@ string GetName() {
 int GetAge() {
     /* #region [Input] Fold GetAge */
     int age;
-    do {
+    do {  /* Input validation: Using a do while loop we check if age is within acceptable range,
+            and prompt the user if it's not */
         cout << "How old will the birthday child be? ";
         cin >> age;
-        while ( cin.fail() ) {
+        while ( cin.fail() ) { // Input validation: While input is not of type int output an error
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Invalid input! Please enter a value between 1-119: ";
             cin >> age;
         }
-        if( age < 1 || age >= 120 ) {
+        if(age < 1 || age >= 120) { // Input validation: If input is outside of acceptable range, output an error
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Range Error! Please enter a value between 1-119." << endl;
@@ -143,16 +158,17 @@ int GetAge() {
 int GetGuests() {
     /* #region [Input] Fold GetGuests */
     int guests;
-    do {
+    do { /* Input validation: Using a do while loop we check if guests is within acceptable range,
+            and prompt the user if it's not */
         cout << "How many invited guests? ";
         cin >> guests;
-        while ( cin.fail() ) {
+        while ( cin.fail() ) {  // Input validation: While input is not of type int output an error
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Invalid input! Please enter a value between 1-499: ";
             cin >> guests;
         }
-        if(guests < 1 || guests >= 500) {
+        if(guests < 1 || guests >= 500) { // Input validation: If input is outside of acceptable range, output an error
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Range Error! Please enter a value between 1-499: " << endl;
@@ -162,15 +178,18 @@ int GetGuests() {
      /* #endregion */
 }
 
-// GetFileName() gets the name of the output file from the user and returns it to main()
-// Precondition: none
-// Postcondition: returns fileName
-string GetFileName() {
-    /* #region [Input] Fold GetFileName */
-    string fileName;
-    cout << "What would you like to name the report file? ";
-    getline(cin, fileName);
-    return fileName;
+char ContinuePrompt(char response) {
+     /* #region [Input] Fold ContinuePrompt */
+    do {
+        cout << "Do you have another report to enter? 'Y'/'N': ";
+        cin >> response;
+        cin.ignore(256, '\n');
+        response = toupper(response);
+        if(response != 'Y' && response != 'N')
+            cout << "Error! Please Enter 'Y' or ’N’: " << endl;
+    }while(response != 'Y' && response != 'N');
+
+    return response;
     /* #endregion */
 }
 
@@ -187,6 +206,8 @@ string GetFileName() {
 /* #endregion */
 
 // ---------------------------- Price Breakpoint Functions ----------------------------
+
+/* #region Price Breakpoint Functions */
 
 // CalcBalloonsCost() calculates the price of each balloon based on the number of balloons purchased
 // Precondition: numBalloons
@@ -263,11 +284,31 @@ float CalcPlatesCost(int platePacks, int PLATES_PER_PACK) {
     return total;
     /* #endregion */
 }
+/* #endregion */
 
 // -------------------------------- Utility Functions ---------------------------------
 
+/* #region Utility Functions */
+
+// WelcomeMessage() ...
+void WelcomeMessage(string artName) {
+     /* #region [Utilities] Fold WelcomeMessage */
+    // https://bit.ly/2Vjy5iq
+    // Open art file and grab its contents
+    ifstream artFile ("art/"+ artName + ".txt");
+
+    if(artFile.is_open())
+    // Output ASCII art to the console
+        cout << artFile.rdbuf() 
+             << endl << endl;
+    // Close the art file
+    artFile.close();
+    /* #endregion */
+}
+
+// GenerateReport() ...
 float GenerateReport(string fileName){
-    /* #region [Charcoal] Fold Generate Report */
+    /* #region [Utilities] Fold Generate Report */
     string name;     // Birthday child's name, to be entered by user.
     int age;         // Birthday child's age, to be entered by user.
     int guests;      // Number of guests invited, to be entered by user.
@@ -341,7 +382,7 @@ float GenerateReport(string fileName){
     PrintReport(age, guests, fullSheets, halfSheet, fileName, name, numBalloons, balloonsCost, numBags, giftBagsCost, napkinPacks, napkinsCost, platePacks, platesCost, pizzas, pizzaCost, juiceBoxPacks, juiceCost, halfSheetCost, fullSheetCost, total);
 
     return total;
-     /* #endregion */
+    /* #endregion */
 }
 
 // PrintReport() prints the report generated by the program to the ofstream output file partyReport.out, located in the same directory as the program.
@@ -375,7 +416,7 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     }
     if (halfSheet)
     {
-        partyReport << "  Cake - half sheet:     " << "1      $    " << halfSheetCost << endl;
+        partyReport << "  Cake - half sheet:      1     $    " << halfSheetCost << endl;
     }
     partyReport << "         Total cost:            $ " << setw(8) << total << endl << endl;
     partyReport << string(44, '*') << endl;
@@ -383,19 +424,6 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     // Close the report file
     partyReport.close();
     /* #endregion */
-}
-
-char ContinuePrompt(char response) {
-    do {
-        cout << "Do you have another report to enter? 'Y'/'N': ";
-        cin >> response;
-        cin.ignore(256, '\n');
-        response = toupper(response);
-        if(response != 'Y' && response != 'N')
-            cout << "Error! Please Enter 'Y' or ’N’: " << endl;
-    }while(response != 'Y' && response != 'N');
-
-    return response;
 }
 
 void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
@@ -420,7 +448,7 @@ void PrintSummary(string fileName, int numParties, float partiesTotalCost) {
     /* #endregion */
 }
 
-void ExitMessage(string message) {
+void ExitMessage(string message, string adj) {
      /* #region [Utilities] Fold ExitMessage */
     // Get system time: http://www.cplusplus.com/reference/ctime/strftime/
     time_t rawtime;
@@ -453,117 +481,29 @@ void ExitMessage(string message) {
 
     if (message == "time of day") {
         int timeOfDay;
-        cout << "intHour: " << intHour << endl;
-        /* #region switch(intHour) */
+        // cout << "intHour: " << intHour << endl;
+
         if ( intHour <= 10 )
             timeOfDay = 0; // Morning
         else if ( intHour > 10 && intHour <= 16 )
             timeOfDay = 1; // Afternoon
         else
             timeOfDay = 2;
-        switch (timeOfDay)
-        {
-            case 0: cout << "Have a nice " << day << " morning!" << endl;
+
+        cout << endl << "Thanks for using the Birhday Party Cost Calculator v 3.0." << endl;
+
+        switch (timeOfDay) {
+            case 0: cout << "Have a " << adj << " " << day << " morning!" << endl;
                     break;
-            case 1: cout << "Have a nice " << day << " afternoon!" << endl;
+            case 1: cout << "Have a " << adj << " " << day << " afternoon!" << endl;
                     break;
-            case 2: cout << "Have a nice " << day << " evening!" << endl;
+            case 2: cout << "Have a " << adj << " " << day << " evening!" << endl;
                     break;
-        } // switch (hour) /* #endregion */
+        } // switch (timeOfDat)
     } else {
          cout << "Have a good " << day << "!" << endl;
-    }// if (message == "time of day")
+    } // if (message == "time of day")
+    cout << endl << string(44, '*') << endl << endl;
     /* #endregion */
 }
-
-
-
-
-
-
-
-
-
-
-
-// Old main() contents
-
-//  // -------------- Input ---------------------
-//     /* #region [Input] Input */
-//     // Ask the user for the child's name
-//     name = GetName();
-
-//     // Get birthday child's age from the user
-//     age = GetAge();
-
-//     // Get the number of guests from the user
-//     guests = GetGuests();
-
-//     // Get the cost of the cake from the user
-//     // cakeCost = GetCakeCost();
-
-//     // Get the file name for the output file from the user
-//     fileName = GetFileName();
-//     /* #endregion */
-
-//     // -------------- Calculations --------------
-//     /* #region [Calc] Calculations */
-//     // Calculate total number of children, including birthday child
-//     int children = guests + 1;
-
-//     // Calculate number and cost of balloons
-//     int numBalloons = guests * age; // Each guest gets one balloon for each year the child is old
-//     float balloonsCost = CalcBalloonsCost(numBalloons);
-
-//     // Calculate number and cost of gift bags
-//     int numBags = guests; // Each guest gets one gift bag
-//     float giftBagsCost = numBags * COST_PER_GIFT_BAG;
-
-//     // Calculate number and cost of napkin packs
-//     int napkinPacks = ceil((children * 4) / float(NAPKINS_PER_PACK)); // Each child gets 4 napkins. NAPKINS_PER_PACK converted to float to prevent data loss for rounding up.
-//     float napkinsCost = CalcNapkinsCost(napkinPacks, NAPKINS_PER_PACK);
-
-//     // Calculate number and cost of plates
-//     int platePacks = ceil((children * 2) / float(PLATES_PER_PACK)); // Each child gets 2 plates. PLATES_PER_PACK converted to float to prevent data loss for rounding up.
-//     float platesCost = CalcPlatesCost(platePacks, PLATES_PER_PACK);
-
-//     // Calculate number and cost of pizzas
-//     int pizzas = ceil((children * 3) / float(SLICES_PER_PIZZA)); // Each child gets 3 slices of pizza. SLICES_PER_PIZZA converted to float to prevent data loss for rounding up.
-//     float pizzaCost = pizzas * COST_PER_PIZZA;
-
-//     // Calculate number and cost of juice box packs
-//     int juiceBoxPacks = ceil((children * 2) / float(JUICE_BOXES_PER_PACK)); // Each child gets 2 juice boxes. JUICE_BOXES_PER_PACK converted to float to prevent data loss for rounding up.
-//     float juiceCost = juiceBoxPacks * COST_PER_JUICE_PACK;
-
-//     // Calculate number of full and half sheet cakes and cost for each
-//     float halfSheetCost = 0; // Cost of half sheet of cake
-//     float fullSheetCost = 0; // Cost of full sheet cakes
-
-//     bool halfSheet = false; // We don't buy a cake until we calculate how many we need
-
-//     int fullSheets = children / 50;        // Each full sheet feeds 50 children
-//     int remainingChildren = children % 50; // Remaining children after dividing by 50
-
-//     if (remainingChildren > 25)
-//     {
-//         fullSheets += 1;
-//     }
-//     else
-//     {
-//         halfSheet = true;
-//         halfSheetCost = COST_PER_HALF_SHEET;
-//     }
-
-//     fullSheetCost = fullSheets * COST_PER_FULL_SHEET; // Total cost of full sheet cakes
-
-//     // Calculate the total cost
-//     // We leave halfSheetCost and fullSheetCost as separate variables instead of combining them because they appear as line items in the report
-//     float total = balloonsCost + giftBagsCost + napkinsCost + platesCost + pizzaCost + juiceCost + halfSheetCost + fullSheetCost;
-//     /* #endregion */
-
-//     // -------------- Output --------------------
-//     /* #region [Utilities] Utilities */
-//     // Print the results to the ofstream output file partyReport.out, located in the same directory as the program.
-//     PrintReport(age, guests, fullSheets, halfSheet, fileName, name, numBalloons, balloonsCost, numBags, giftBagsCost, napkinPacks, napkinsCost, platePacks, platesCost, pizzas, pizzaCost, juiceBoxPacks, juiceCost, halfSheetCost, fullSheetCost, total);
-//     /* #endregion */
-    
+/* #endregion */
