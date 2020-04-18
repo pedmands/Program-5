@@ -172,8 +172,7 @@ string GetName() {
 
     do {
         cout << "What is the birthday child's name? ";
-        cin >> name;
-        cin.ignore(256, '\n');
+        getline(cin, name);
         if (isNumber(name))
             cout << "No digits allowed in name!" << endl;
     }while(isNumber(name));
@@ -190,10 +189,18 @@ int GetAge() {
     do {
         cout << "How old will the birthday child be? ";
         cin >> age;
-        cin.ignore(256, '\n');
-        if(age < 1 || age >= 120)
-            cout << "Error! Please a value between 1-119: " << endl;
-    }while(age < 1 || age >= 120);
+        while ( cin.fail() ) {
+            cin.clear();
+            cin.ignore(256, '\n');
+            cout << "Invalid input! Please enter a value between 1-119: ";
+            cin >> age;
+        }
+        if( age < 1 || age >= 120 ) {
+            cin.clear();
+            cin.ignore(256, '\n');
+            cout << "Range Error! Please enter a value between 1-119." << endl;
+        }
+    } while(age < 1 || age >= 120);
     return age;
      /* #endregion */
 }
@@ -204,16 +211,21 @@ int GetAge() {
 int GetGuests() {
     /* #region [Input] Fold GetGuests */
     int guests;
-    cout << "How many invited guests? ";
-    cin >> guests;
-    cin.ignore(256, '\n');
     do {
         cout << "How many invited guests? ";
         cin >> guests;
-        cin.ignore(256, '\n');
-        if(guests < 1 || guests <= 500)
-            cout << "Error! Please enter a value between 1-499: " << endl;
-    }while(guests < 1 || guests <= 500);
+        while ( cin.fail() ) {
+            cin.clear();
+            cin.ignore(256, '\n');
+            cout << "Invalid input! Please enter a value between 1-499: ";
+            cin >> guests;
+        }
+        if(guests < 1 || guests >= 500) {
+            cin.clear();
+            cin.ignore(256, '\n');
+            cout << "Range Error! Please enter a value between 1-499: " << endl;
+        }
+    }while(guests < 1 || guests >= 500);
     return guests;
      /* #endregion */
 }
@@ -347,7 +359,7 @@ void PrintReport(int age, int guests, int fullSheets, bool halfSheet, string fil
     partyReport << "     Juicebox Packs:  " << setw(5) << juiceBoxPacks << "     $ " << setw(8) << juiceCost << endl;
     if (fullSheets)
     {
-        partyReport << "  Cake - full sheet:    " << setw(2) << fullSheets << "      $ " << setw(8) << fullSheetCost << endl;
+        partyReport << "  Cake - full sheet:     " << setw(2) << fullSheets << "     $ " << setw(8) << fullSheetCost << endl;
     }
     if (halfSheet)
     {
