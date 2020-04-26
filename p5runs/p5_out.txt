@@ -1,0 +1,156 @@
+
+       *     (   +      *.  . )
+          )    .  ____+      (   *
+      .  (  \||  (//\_ \.\|/       .
+       + .-"-\ \ `a,a `/ / | + (
+        /     \ \ \O_ / / /     )  +
+     .  |#    |\ \_) (_/ / * .-"-. )
+         \___/  \       /   /#    \  (
+      *   /^     \.&&&./  . |     |
+         (    *  |  &  |*    \___/
+     .    \      |__&__|  '    ^\   +
+           )     | \_/ |     ) . )
+       *    . @%@%@%@%@%@%@ (   (
+       (      {  WELCOME  }  )      *
+        ) *   {  TO  THE  }     +  (
+       (    @%@%@%@%@%@%@%@%@       ) '
+     +      {    Birthday   }  *   (
+            {      Cost     }
+            {   Calculator  }
+            {     v.3.1     }        (
+    *      @%@%@%@%@%@%@%@%@%@        +
+
+********************************************
+
+Please enter the file name to use for the report: 
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+********************************************
+
+
+Number of parties:                       5
+Total cost of all parties:      $  3039.45
+Average spent on each party:    $   607.89
+
+********************************************
+********************************************
+
+             Thanks for using              
+            The Birthday Party             
+           Cost Calculator v.3.1           
+      Have a great Sunday evening!
+
+********************************************
+
+
+       *     (   +      *.  . )
+          )    .  ____+      (   *
+      .  (  \||  (//\_ \.\|/       .
+       + .-"-\ \ `a,a `/ / | + (
+        /     \ \ \O_ / / /     )  +
+     .  |#    |\ \_) (_/ / * .-"-. )
+         \___/  \       /   /#    \  (
+      *   /^     \.&&&./  . |     |
+         (    *  |  &  |*    \___/
+     .    \      |__&__|  '    ^\   +
+           )     | \_/ |     ) . )
+       *    . @%@%@%@%@%@%@ (   (
+       (      {  WELCOME  }  )      *
+        ) *   {  TO  THE  }     +  (
+       (    @%@%@%@%@%@%@%@%@       ) '
+     +      {    Birthday   }  *   (
+            {      Cost     }
+            {   Calculator  }
+            {     v.3.1     }        (
+    *      @%@%@%@%@%@%@%@%@%@        +
+
+********************************************
+
+Please enter the file name to use for the report: 
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+RANGE ERROR, Please enter a value between 1-119!
+
+How old will the birthday child be? 
+RANGE ERROR, Please enter a value between 1-119!
+
+How old will the birthday child be? 
+INPUT ERROR, Please enter an integer between 1-119!
+
+How old will the birthday child be?
+RANGE ERROR, Please enter a value between 1-119!
+
+How old will the birthday child be? 
+How many invited guests? 
+RANGE ERROR, Please enter a value between 1-499! 
+
+How many invited guests? 
+RANGE ERROR, Please enter a value between 1-499! 
+
+How many invited guests? 
+RANGE ERROR, Please enter a value between 1-499! 
+
+How many invited guests? 
+INPUT ERROR, Please enter an integer between 1-499! 
+
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+
+What is the birthday child's name? 
+How old will the birthday child be? 
+How many invited guests? 
+Would you like to process another party (Y/N)? 
+
+********************************************
+
+
+Number of parties:                       3
+Total cost of all parties:      $ 20452.30
+Average spent on each party:    $  6817.43
+
+********************************************
+********************************************
+
+             Thanks for using              
+            The Birthday Party             
+           Cost Calculator v.3.1           
+      Have a great Sunday evening!
+
+********************************************
+

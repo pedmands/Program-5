@@ -22,7 +22,7 @@
 
 ********************************************
 
-What would you like to name the report file? 
+Please enter the file name to use for the report: 
 
 What is the birthday child's name? 
 How old will the birthday child be? 
@@ -53,10 +53,12 @@ INPUT ERROR, Please enter an integer between 1-499!
 How many invited guests? 
 Would you like to process another party (Y/N)? 
 
+
 What is the birthday child's name? 
 How old will the birthday child be? 
 How many invited guests? 
 Would you like to process another party (Y/N)? 
+
 
 What is the birthday child's name? 
 How old will the birthday child be? 
@@ -64,18 +66,19 @@ How many invited guests?
 Would you like to process another party (Y/N)? 
 
 ********************************************
-********************************************
 
-Number of Parties:                       3
+
+Number of parties:                       3
 Total cost of all parties:      $ 20452.30
 Average spent on each party:    $  6817.43
 
 ********************************************
 ********************************************
 
-
-Thanks for using the Birhday Party Cost Calculator v 3.0.
-Have a lovely Saturday afternoon!
+             Thanks for using              
+            The Birthday Party             
+           Cost Calculator v.3.1           
+      Have a great Sunday evening!
 
 ********************************************
 

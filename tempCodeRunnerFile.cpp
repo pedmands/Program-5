@@ -1,1 +1,1 @@
-cin.ignore(256, '\n');
+PrintReport
